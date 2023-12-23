@@ -1,0 +1,3 @@
+displayName = 宝石争夺战
+author = Furgo
+version = 0.1
