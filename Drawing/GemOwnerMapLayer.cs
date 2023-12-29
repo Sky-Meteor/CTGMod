@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CTGMod.Drawing.Element;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Map;
@@ -12,7 +10,7 @@ using Terraria.UI;
 
 namespace CTGMod.Drawing;
 
-public class GemOwnerMapDrawing : ModMapLayer
+public class GemOwnerMapLayer : ModMapLayer
 {
     private int _timer;
     private bool _shouldUpdateGem;

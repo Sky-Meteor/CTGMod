@@ -37,7 +37,7 @@ public class CTGGlobalItem : GlobalItem
     {
         if (GemID.Gems.Contains(item.type))
         {
-            GemDroppedMapDrawing.Gems.Add(item);
+            GemDroppedMapLayer.Gems.Add(item);
             Lighting.AddLight(item.position, Color.Gold.ToVector3());
         }
     }

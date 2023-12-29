@@ -11,7 +11,7 @@ using Terraria.UI;
 
 namespace CTGMod.Drawing;
 
-public class GemDroppedMapDrawing : ModMapLayer
+public class GemDroppedMapLayer : ModMapLayer
 {
     public static List<Item> Gems = new();
 
