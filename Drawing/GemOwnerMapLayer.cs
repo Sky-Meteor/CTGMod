@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CTGMod.Common;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;

@@ -7,11 +7,7 @@ public abstract class BaseGemBuff : ModBuff
 {
     public override void SetStaticDefaults()
     {
-        base.SetStaticDefaults();
-    }
-
-    public override void Update(Player player, ref int buffIndex)
-    {
-        base.Update(player, ref buffIndex);
+        Main.buffNoTimeDisplay[Type] = true;
+        Main.buffNoSave[Type] = true;
     }
 }

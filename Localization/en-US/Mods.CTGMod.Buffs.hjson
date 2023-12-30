@@ -1,0 +1,9 @@
+LargeAmberBuff: {
+	Description: Effects of Shield of Cthulhu and Frog Leg
+	DisplayName: Large Amber
+}
+
+LargeAmethystBuff: {
+	Description: Increases magic damage by 20%, maximum mana by 60 and mana regeneration
+	DisplayName: Large Amethyst
+}

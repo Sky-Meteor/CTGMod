@@ -27,9 +27,10 @@ public class CTGGlobalItem : GlobalItem
         int type = item.type;
         if (GemID.Gems.Contains(type))
         {
-            tooltips.Add(new TooltipLine(Mod, "CTGLargeGem0", LocalizedItemColorTooltipText(type, Color.LightBlue, "DrawPlayer")));
-            tooltips.Add(new TooltipLine(Mod, "CTGLargeGem1", LocalizedItemColorTooltipText(type, Color.LightBlue, "DrawGem")));
-            tooltips.Add(new TooltipLine(Mod, "CTGLargeGem2", LocalizedItemColorTooltipText(ItemID.Torch, Color.Gold, "GemGlow")));
+            tooltips.Add(new TooltipLine(Mod, "CTGLargeGem0", LocalizedItemColorTooltipText(type, Color.LightGreen, "GemBuff")));
+            tooltips.Add(new TooltipLine(Mod, "CTGLargeGem1", LocalizedItemColorTooltipText(type, Color.LightBlue, "DrawPlayer")));
+            tooltips.Add(new TooltipLine(Mod, "CTGLargeGem2", LocalizedItemColorTooltipText(type, Color.LightBlue, "DrawGem")));
+            tooltips.Add(new TooltipLine(Mod, "CTGLargeGem3", LocalizedItemColorTooltipText(ItemID.Torch, Color.Gold, "GemGlow")));
         }
     }
 

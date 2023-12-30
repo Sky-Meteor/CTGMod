@@ -1,0 +1,9 @@
+LargeAmberBuff: {
+	Description: 提供克苏鲁护盾和蛙腿的效果
+	DisplayName: 大琥珀
+}
+
+LargeAmethystBuff: {
+	Description: 提供30%魔法伤害加成，60魔力上限和魔力再生的效果
+	DisplayName: 大紫晶
+}
