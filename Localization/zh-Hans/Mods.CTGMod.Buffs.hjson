@@ -4,6 +4,21 @@ LargeAmberBuff: {
 }
 
 LargeAmethystBuff: {
-	Description: 提供30%魔法伤害加成，60魔力上限和魔力再生的效果
+	Description: 魔法伤害提升30%，魔力上限提升60，提供魔力再生的效果
 	DisplayName: 大紫晶
+}
+
+LargeRubyBuff: {
+	Description: 增加20%最大生命值，生命再生增加每秒2点生命值，增加心的拾取范围
+	DisplayName: 大红玉
+}
+
+LargeSapphireBuff: {
+	Description: 召唤伤害提升50%
+	DisplayName: 大蓝玉
+}
+
+LargeTopazBuff: {
+	DisplayName: 大黄玉
+	Description: 采矿速度提高25%，提供洞穴探险的效果，镐造成的伤害提高100%
 }
