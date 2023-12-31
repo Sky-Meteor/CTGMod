@@ -2,6 +2,7 @@
 using CTGMod.Content.Buffs.GemBuffs;
 using CTGMod.ID;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -30,12 +31,19 @@ public class CTGPlayer : ModPlayer
                 {
                     count++;
                     OwnedGems.Add(i.type);
+                    i.favorited = true;
                 }
             }
 
             if (count > 0 && Player.hostile)
                 ShouldBeDrawnOnMap = true;
         }
+    }
+
+    public override void PreUpdate()
+    {
+        if (GemID.Gems.Contains(Player.trashItem.type))
+            Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name}遭到天谴。"), 999, 1);
     }
 
     public override void PostUpdateMiscEffects()
@@ -61,5 +69,19 @@ public class CTGPlayer : ModPlayer
                     break;
             }
         }
+
+        if (OwnedGems.Count == 3)
+            Player.AddBuff(ModContent.BuffType<GemCurseI>(), 2);
+        else if (OwnedGems.Count == 4)
+            Player.AddBuff(ModContent.BuffType<GemCurseII>(), 2);
+        else if (OwnedGems.Count >= 5)
+            Player.AddBuff(ModContent.BuffType<GemCurseIII>(), 2);
+    }
+
+    public override void PostUpdateBuffs()
+    {
+        int gravIndex = Player.FindBuffIndex(BuffID.Gravitation);
+        if (gravIndex != -1 && Player.buffTime[gravIndex] > 60 * 60)
+            Player.buffTime[gravIndex] = 60 * 60;
     }
 }

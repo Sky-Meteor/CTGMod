@@ -4,3 +4,5 @@ Tooltips: {
 	DrawGem: 掉落在地上的宝石会被标注在地图上
 	GemGlow: 掉落在地上的宝石会发出光亮
 }
+
+MessageInfo.CannotTpCurse: 你拥有多于2个大宝石，获得宝石诅咒，禁止传送

@@ -17,9 +17,4 @@ public class DoDrawPatch : ModSystem
             GemMapIcons.PrepareMapIcons();
         orig.Invoke(self, gameTime);
     }
-
-    public override void Unload()
-    {
-        On_Main.DoDraw -= DoDraw;
-    }
 }

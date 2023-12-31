@@ -22,3 +22,27 @@ LargeTopazBuff: {
 	DisplayName: Large Topaz Buff
 	Description: Mods.CTGMod.Buffs.LargeTopazBuff.Description
 }
+
+GemCurseI: {
+	DisplayName: Gem Curse I
+	Description: You have darkness debuff and teleportations are disabled
+}
+
+GemCurseII: {
+	DisplayName: Gem Curse II
+	Description:
+		'''
+		You have darkness debuff and teleportations are disabled
+		You have blackout debuff and cause an inferno ring (no damage) around you
+		'''
+}
+
+GemCurseIII: {
+	DisplayName: Gem Curse III
+	Description:
+		'''
+		You have darkness debuff and teleportations are disabled
+		You have blackout debuff and cause an inferno ring (no damage) around you
+		You have weak debuff and decreases your defense by 6 and movement speed by 10%
+		'''
+}

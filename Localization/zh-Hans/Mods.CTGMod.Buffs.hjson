@@ -22,3 +22,27 @@ LargeTopazBuff: {
 	DisplayName: 大黄玉
 	Description: 采矿速度提高25%，提供洞穴探险的效果，镐造成的伤害提高100%
 }
+
+GemCurseI: {
+	DisplayName: 宝石诅咒 I
+	Description: 获得黑暗减益，禁用所有传送手段
+}
+
+GemCurseII: {
+	DisplayName: 宝石诅咒 II
+	Description:
+		'''
+		获得黑暗减益，禁用所有传送手段
+		获得黑视减益，获得无伤害的狱火环
+		'''
+}
+
+GemCurseIII: {
+	DisplayName: 宝石诅咒 III
+	Description:
+		'''
+		获得黑暗减益，禁用所有传送手段
+		获得黑视减益，获得无伤害的狱火环
+		获得虚弱减益，并额外减少6防御和10%移动速度
+		'''
+}
