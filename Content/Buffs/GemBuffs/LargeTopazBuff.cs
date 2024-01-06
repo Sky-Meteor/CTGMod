@@ -1,6 +1,5 @@
 ﻿using CTGMod.Common;
 using Terraria;
-using Terraria.ID;
 
 namespace CTGMod.Content.Buffs.GemBuffs;
 

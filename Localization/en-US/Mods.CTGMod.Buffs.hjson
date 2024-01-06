@@ -8,6 +8,16 @@ LargeAmethystBuff: {
 	DisplayName: Large Amethyst
 }
 
+LargeDiamondBuff: {
+	DisplayName: Large Diamond
+	Description: You deal 2x damage to bosses
+}
+
+LargeEmeraldBuff: {
+	DisplayName: Large Emerald
+	Description: Your hook is 1.5x faster and 1.25x longer
+}
+
 LargeRubyBuff: {
 	Description: Increases max health by 20%, life regeneration by 2 health per second and heart pickup range
 	DisplayName: Large Ruby

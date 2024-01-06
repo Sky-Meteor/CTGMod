@@ -8,6 +8,16 @@ LargeAmethystBuff: {
 	DisplayName: 大紫晶
 }
 
+LargeDiamondBuff: {
+	DisplayName: 大钻石
+	Description: 对Boss造成伤害翻倍
+}
+
+LargeEmeraldBuff: {
+	DisplayName: 大翡翠
+	Description: 钩爪速度增加50%，长度增加25%
+}
+
 LargeRubyBuff: {
 	Description: 增加20%最大生命值，生命再生增加每秒2点生命值，增加心的拾取范围
 	DisplayName: 大红玉

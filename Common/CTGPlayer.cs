@@ -57,6 +57,12 @@ public class CTGPlayer : ModPlayer
                 case ItemID.LargeAmethyst:
                     Player.AddBuff(ModContent.BuffType<LargeAmethystBuff>(), 2);
                     break;
+                case ItemID.LargeDiamond:
+                    Player.AddBuff(ModContent.BuffType<LargeDiamondBuff>(), 2);
+                    break;
+                case ItemID.LargeEmerald:
+                    Player.AddBuff(ModContent.BuffType<LargeEmeraldBuff>(), 2);
+                    break;
                 case ItemID.LargeRuby:
                     Player.AddBuff(ModContent.BuffType<LargeRubyBuff>(), 2);
                     break;
