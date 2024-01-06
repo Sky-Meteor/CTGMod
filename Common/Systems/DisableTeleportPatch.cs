@@ -19,7 +19,8 @@ public class DisableTeleportPatch : ModSystem
     {
         if (context == PlayerSpawnContext.RecallFromItem && self.GetModPlayer<CTGEffectPlayer>().DisableTeleport)
         {
-            CTGUtil.NewLocalizedText("CannotTpCurse", Color.Red);
+            if (self.whoAmI == Main.myPlayer)
+                CTGUtil.NewLocalizedText("CannotTpCurse", Color.Red);
             return;
         }
         orig.Invoke(self, context);
@@ -33,7 +34,8 @@ public class DisableTeleportPatch : ModSystem
         else
         {
             self.RemoveAllGrapplingHooks();
-            CTGUtil.NewLocalizedText("CannotTpCurse", Color.Red);
+            if (self.whoAmI == Main.myPlayer)
+                CTGUtil.NewLocalizedText("CannotTpCurse", Color.Red);
         }
     }
 

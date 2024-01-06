@@ -14,7 +14,7 @@ public class GemID
     public const int LargeDiamond = 5;
     public const int LargeAmber = 6;
 
-    public static int FromItemID(int id)
+    public static int FromItemID(int id, bool noError = false)
     {
         if (id == ItemID.LargeAmethyst)
             return LargeAmethyst;
@@ -32,18 +32,18 @@ public class GemID
             return LargeAmber;
         throw new Exception($"GemID.FromItemID(int): 输入了错误的宝石物品ID：{id}");
     }
-    public static int FromNameToItemID(string name)
+    public static int FromNameToItemID(string name, bool noError = false)
     {
         return name switch
         {
-            "LargeAmethyst" => ItemID.LargeAmethyst,
-            "LargeTopaz" => ItemID.LargeTopaz,
-            "LargeSapphire" => ItemID.LargeSapphire,
-            "LargeEmerald" => ItemID.LargeEmerald,
-            "LargeRuby" => ItemID.LargeRuby,
-            "LargeDiamond" => ItemID.LargeDiamond,
-            "LargeAmber" => ItemID.LargeAmber,
-            _ => throw new Exception($"GemID.FromName(string): 输入了错误的宝石名：{name}")
+            "LargeAmethyst" or "amethyst" => ItemID.LargeAmethyst,
+            "LargeTopaz" or "topaz" => ItemID.LargeTopaz,
+            "LargeSapphire" or "sapphire" => ItemID.LargeSapphire,
+            "LargeEmerald" or "emerald" => ItemID.LargeEmerald,
+            "LargeRuby" or "ruby" => ItemID.LargeRuby,
+            "LargeDiamond" or "sapphire" => ItemID.LargeDiamond,
+            "LargeAmber" or "amber" => ItemID.LargeAmber,
+            _ => noError ? -1 : throw new Exception($"GemID.FromName(string): 输入了错误的宝石名：{name}")
         };
     }
 
