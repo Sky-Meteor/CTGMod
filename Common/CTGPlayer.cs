@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using CTGMod.Common.Configs;
 using CTGMod.Content.Buffs.GemBuffs;
 using CTGMod.ID;
-using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,13 +14,14 @@ public class CTGPlayer : ModPlayer
 
     public bool ShouldBeDrawnOnMap;
 
-    private int _updateTimer;
+    public static int UpdateTimer;
+
+    public Vector2 DrawCenter = Vector2.Zero;
 
     public override void ResetEffects()
     {
-        if (++_updateTimer >= 10)
+        if (CTGConfig.Instance.PlayerPositionUpdateTime < 10 ? UpdateTimer >= CTGConfig.Instance.PlayerPositionUpdateTime : UpdateTimer % 10 == 0)
         {
-            _updateTimer = 0;
             ShouldBeDrawnOnMap = false;
             OwnedGems.Clear();
 
@@ -34,15 +36,22 @@ public class CTGPlayer : ModPlayer
                 }
             }
 
-            if (count > 0 && Player.hostile)
+            if (count > 0 && Player.hostile) 
                 ShouldBeDrawnOnMap = true;
+        }
+
+        if (UpdateTimer >= CTGConfig.Instance.PlayerPositionUpdateTime)
+        {
+            UpdateTimer = 0;
+            if (ShouldBeDrawnOnMap)
+                DrawCenter = Player.Center;
         }
     }
 
     public override void PreUpdate()
     {
-        if (GemID.Gems.Contains(Player.trashItem.type))
-            Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name}遭到天谴。"), 999, 1);
+        //if (GemID.Gems.Contains(Player.trashItem.type))
+            //Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name}遭到天谴。"), 999, 1);
     }
 
     public override void PostUpdateMiscEffects()

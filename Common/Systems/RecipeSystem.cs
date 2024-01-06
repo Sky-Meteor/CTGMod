@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using CTGMod.ID;
+﻿using CTGMod.ID;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -9,10 +8,21 @@ public class RecipeSystem : ModSystem
 {
     public override void PostAddRecipes()
     {
-        foreach (Recipe recipe in Main.recipe.Where(recipe => GemID.Gems.Contains(recipe.createItem.type)))
+        int count = 0;
+        int modRecipeCount = 0;
+        foreach (Recipe recipe in Main.recipe)
         {
-            recipe.DisableRecipe();
-            recipe.DisableDecraft();
+            if (GemID.Gems.Contains(recipe.createItem.type) || recipe.requiredItem.Exists(item => GemID.Gems.Contains(item.type)))
+            {
+                count++;
+                recipe.DisableRecipe();
+                recipe.DisableDecraft();
+                if (recipe.Mod != null)
+                {
+                    modRecipeCount++;
+                }
+            }
         }
+        Mod.Logger.Info($"CTG RecipeSystem: Removed {count} recipes, including {modRecipeCount} mod recipe(s).");
     }
 }

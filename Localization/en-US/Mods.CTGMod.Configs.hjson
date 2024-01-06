@@ -1,0 +1,8 @@
+CTGConfig: {
+	PlayerPositionUpdateTime: {
+		Tooltip: Time between player position updates on map in tick
+		Label: Player Position Update Time
+	}
+
+	DisplayName: CTG Config
+}

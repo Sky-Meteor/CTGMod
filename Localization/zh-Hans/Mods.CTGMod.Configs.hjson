@@ -1,0 +1,8 @@
+CTGConfig: {
+	PlayerPositionUpdateTime: {
+		Tooltip: 玩家在地图上的位置更新的时间间隔（单位为游戏刻）
+		Label: 玩家位置更新间隔
+	}
+
+	DisplayName: CTG 模组配置
+}
