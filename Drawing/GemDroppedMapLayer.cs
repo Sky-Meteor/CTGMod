@@ -19,7 +19,7 @@ public class GemDroppedMapLayer : ModMapLayer
     {
         foreach (var item in Gems)
         {
-            if (item != null && item.active && !item.IsAir)
+            if (item != null && item.active && !item.IsAir && GemID.Gems.Contains(item.type))
             {
                 Texture2D texture = GemMapIcons.GemMapIconContents[new Tuple<int, int>(GemID.FromItemID(item.type), 0)];
                 context.Draw(texture, item.Center / 16f, Color.White, new SpriteFrame(1, 1, 0, 0), .75f, .75f, Alignment.Center);

@@ -44,8 +44,8 @@ public class GemOwnerMapLayer : ModMapLayer
                 _currentDisplayingGem[p.whoAmI] = 0;
 
             Vector2 position = p.GetModPlayer<CTGPlayer>().DrawCenter / 16f;
-            if (p.team != 0 && p.team == Main.LocalPlayer.team)
-                position -= new Vector2(0, 5);
+            if (position == Vector2.Zero)
+                return;
 
             if (context.Draw(GemMapIcons.GemMapIconContents[new Tuple<int, int>(GemID.FromItemID(mp.OwnedGems[_currentDisplayingGem[p.whoAmI]]), p.team)]
                     , position, Color.White, new SpriteFrame(1, 1, 0, 0), .65f, .65f, Alignment.Center).IsMouseOver)
