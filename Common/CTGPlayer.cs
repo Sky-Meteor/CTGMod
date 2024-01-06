@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using CTGMod.Content.Buffs.GemBuffs;
 using CTGMod.ID;
-using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;

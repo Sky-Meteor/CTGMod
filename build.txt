@@ -1,3 +1,4 @@
 displayName = 宝石争夺战 Capture the Gem
 author = Furgo
-version = 0.1
+version = 0.1.1
+dllReferences = StructureHelper
