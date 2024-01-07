@@ -27,8 +27,9 @@ public class GiveStarterPack : ModCommand
                 switch (args[0])
                 {
                     case "allplayer":
-                        var list = GemID.Gems.ToList(); 
-                        list.Sort((item1, item2) => Main.rand.NextBool() ? item1 : item2);
+                        var list = GemID.Gems.ToList();
+                        for (int i = 0; i < 7; i++)
+                            list.Sort((item1, item2) => Main.rand.NextBool() ? item1 : item2);
                         int packCount = 0;
 
                         foreach (Player p in Main.player)
