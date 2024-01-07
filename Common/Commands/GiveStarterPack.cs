@@ -29,13 +29,19 @@ public class GiveStarterPack : ModCommand
                     case "allplayer":
                         var list = GemID.Gems.ToList();
                         for (int i = 0; i < 7; i++)
-                            list.Sort((item1, item2) => Main.rand.NextBool() ? item1 : item2);
+                            list.Sort((_, _) => Main.rand.NextBool() ? 1 : -1);
                         int packCount = 0;
 
                         foreach (Player p in Main.player)
                         {
-                            if (p != null)
-                                TryGivePack(p, list[packCount++]);
+                            if (p != null && p.active)
+                                TryGivePack(p, list[packCount]);
+                            if (++packCount >= 7)
+                            {
+                                packCount = 0;
+                                for (int i = 0; i < 7; i++)
+                                    list.Sort((_, _) => Main.rand.NextBool() ? 1 : -1);
+                            }
                         }
                         break;
                     default:
@@ -62,7 +68,8 @@ public class GiveStarterPack : ModCommand
         foreach (var item in StarterPackList)
         {
             Item i = player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), item.Item1, item.Item2);
-            i.Prefix(item.Item3);
+            if (item.Item3 != 0)
+                i.Prefix(item.Item3);
         }
 
         player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), gemType);
