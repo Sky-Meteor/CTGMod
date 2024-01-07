@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CTGMod.Common.Configs;
+using CTGMod.Common.Systems;
 using CTGMod.Content.Buffs.GemBuffs;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace CTGMod.Common.ModPlayers;
 
@@ -33,6 +38,15 @@ public class CTGPlayer : ModPlayer
                     count++;
                     OwnedGems.Add(i.type);
                     i.favorited = true;
+                }
+            }
+
+            foreach (var i in UISystem.Instance.GemSlot.GetItemTypes())
+            {
+                if (GemID.Gems.Contains(i))
+                {
+                    count++;
+                    OwnedGems.Add(i);
                 }
             }
 
@@ -97,5 +111,31 @@ public class CTGPlayer : ModPlayer
         int gravIndex = Player.FindBuffIndex(BuffID.Gravitation);
         if (gravIndex != -1 && Player.buffTime[gravIndex] > 60 * 60)
             Player.buffTime[gravIndex] = 60 * 60;
+    }
+
+
+    public IList<int> ItemTypesForSave = new List<int>();
+    public override void SaveData(TagCompound tag)
+    {
+        tag.Add("CTGGemSlotTypes", ItemTypesForSave.ToList());
+    }
+
+    public IList<int> ItemTypesForLoad = new List<int>();
+    public override void LoadData(TagCompound tag)
+    {
+        IList<int> gemSlotItemList = tag.GetList<int>("CTGGemSlotTypes");
+        ItemTypesForLoad = new List<int>();
+        ItemTypesForLoad = gemSlotItemList.ToList();
+    }
+    
+    public override void ProcessTriggers(TriggersSet triggersSet)
+    {
+        if (CTGMod.GemSlotKey.JustPressed && Main.LocalPlayer.chest == -1)
+        {
+            UISystem.Instance.GemSlot.Visible = !UISystem.Instance.GemSlot.Visible;
+
+            if (UISystem.Instance.GemSlot.Visible && !Main.playerInventory)
+                Main.playerInventory = true;
+        }
     }
 }

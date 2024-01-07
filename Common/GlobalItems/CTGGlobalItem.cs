@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CTGMod.Common.Systems;
 using CTGMod.Drawing;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
@@ -41,5 +42,14 @@ public class CTGGlobalItem : GlobalItem
         }
     }
 
-    //public static string LocalizedTooltip(string key) => $"Mods.CTGMod.Common.Tooltips.{key}";
+    public override bool CanRightClick(Item item)
+    {
+        if (GemID.Gems.Contains(item.type) && UISystem.Instance.GemSlot.TryInsert(item))
+        {
+            item.TurnToAir();
+            return true;
+        }
+
+        return false;
+    }
 }
