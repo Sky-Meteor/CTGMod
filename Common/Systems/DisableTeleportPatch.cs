@@ -1,4 +1,5 @@
-﻿using CTGMod.Common.Utils;
+﻿using CTGMod.Common.ModPlayers;
+using CTGMod.Common.Utils;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

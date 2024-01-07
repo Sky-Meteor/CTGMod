@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace CTGMod.Common;
+namespace CTGMod.Common.ModPlayers;
 
 public class CTGEffectPlayer : ModPlayer
 {
@@ -11,7 +11,7 @@ public class CTGEffectPlayer : ModPlayer
 
     //see DisableTeleportPatch
     public bool DisableTeleport;
-    
+
 
     public override void ResetEffects()
     {
@@ -20,13 +20,7 @@ public class CTGEffectPlayer : ModPlayer
         StrongHook = false;
         DisableTeleport = false;
     }
-
-    public override void ModifyWeaponDamage(Item item, ref StatModifier damage)
-    {
-        if (StrongPickaxe && item.pick > 0)
-            damage *= 2;
-    }
-
+    
     public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
     {
         if (BossStriker && target.boss)

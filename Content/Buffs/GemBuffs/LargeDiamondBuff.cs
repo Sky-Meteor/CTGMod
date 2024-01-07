@@ -1,4 +1,4 @@
-﻿using CTGMod.Common;
+﻿using CTGMod.Common.ModPlayers;
 using Terraria;
 
 namespace CTGMod.Content.Buffs.GemBuffs;

@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static CTGMod.Common.Utils.TooltipHelper;
 
-namespace CTGMod.Common;
+namespace CTGMod.Common.GlobalItems;
 
 public class CTGGlobalItem : GlobalItem
 {

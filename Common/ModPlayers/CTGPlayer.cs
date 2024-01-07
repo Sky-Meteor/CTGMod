@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CTGMod.Common;
+namespace CTGMod.Common.ModPlayers;
 
 public class CTGPlayer : ModPlayer
 {
@@ -36,7 +36,7 @@ public class CTGPlayer : ModPlayer
                 }
             }
 
-            if (count > 0 && Player.hostile) 
+            if (count > 0 && Player.hostile)
                 ShouldBeDrawnOnMap = true;
         }
 
@@ -51,7 +51,7 @@ public class CTGPlayer : ModPlayer
     public override void PreUpdate()
     {
         //if (GemID.Gems.Contains(Player.trashItem.type))
-            //Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name}遭到天谴。"), 999, 1);
+        //Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name}遭到天谴。"), 999, 1);
     }
 
     public override void PostUpdateMiscEffects()

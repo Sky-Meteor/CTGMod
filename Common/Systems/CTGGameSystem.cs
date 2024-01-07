@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using CTGMod.Common.ModPlayers;
+using Terraria.ModLoader;
 
 namespace CTGMod.Common.Systems;
 

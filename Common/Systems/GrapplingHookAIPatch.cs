@@ -7,6 +7,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
+using CTGMod.Common.ModPlayers;
 
 namespace CTGMod.Common.Systems;
 
