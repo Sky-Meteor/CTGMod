@@ -39,4 +39,10 @@ public class UISystem : ModSystem
             return true;
         }, InterfaceScaleType.UI));
     }
+
+    public override void Unload()
+    {
+        GemSlotUserInterface = null;
+        GemSlot = null;
+    }
 }

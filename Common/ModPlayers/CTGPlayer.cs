@@ -41,12 +41,17 @@ public class CTGPlayer : ModPlayer
                 }
             }
 
-            foreach (var i in UISystem.Instance.GemSlot.GetItemTypes())
+            for (var i = 0; i < UISystem.Instance.GemSlot.ItemsRef.Length; i++)
             {
-                if (GemID.Gems.Contains(i))
+                ref var item = ref UISystem.Instance.GemSlot.ItemsRef[i];
+                if (GemID.Gems.Contains(item.type))
                 {
                     count++;
-                    OwnedGems.Add(i);
+                    OwnedGems.Add(item.type);
+                }
+                else
+                {
+                    Player.DropItem(Player.GetSource_Misc("CTGGemSlotInvalidItem"), Player.Center, ref item);
                 }
             }
 
@@ -119,7 +124,7 @@ public class CTGPlayer : ModPlayer
     {
         tag.Add("CTGGemSlotTypes", ItemTypesForSave.ToList());
     }
-
+    
     public IList<int> ItemTypesForLoad = new List<int>();
     public override void LoadData(TagCompound tag)
     {
@@ -137,5 +142,21 @@ public class CTGPlayer : ModPlayer
             if (UISystem.Instance.GemSlot.Visible && !Main.playerInventory)
                 Main.playerInventory = true;
         }
+    }
+
+    public override void Load()
+    {
+        OwnedGems = new List<int>();
+        DrawCenter = Vector2.Zero;
+        ItemTypesForSave = new List<int>();
+        ItemTypesForLoad = new List<int>();
+    }
+
+    public override void Unload()
+    {
+        OwnedGems = null;
+        DrawCenter = Vector2.Zero;
+        ItemTypesForSave = null;
+        ItemTypesForLoad = null;
     }
 }

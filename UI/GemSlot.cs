@@ -52,11 +52,10 @@ public class GemSlot : UIState
 
         base.Update(gameTime);
     }
+    
+    public List<int> GetItemTypes() => _items.Select(item => item.type).ToList();
 
-    public List<int> GetItemTypes()
-    {
-        return _items.Select(item => item.type).ToList();
-    }
+    public ref Item[] ItemsRef => ref _items;
 
     public bool TryInsert(Item item)
     {
