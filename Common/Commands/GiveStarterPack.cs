@@ -20,13 +20,14 @@ public class GiveStarterPack : ModCommand
         switch (args.Length)
         {
             case 0:
-                string text1 = "第一个参数可选：amber/amethyst/diamond/emerald/ruby/sapphire/topaz | allplayer";
+                string text1 = "第一个参数可选：amber/amethyst/diamond/emerald/ruby/sapphire/topaz | allplayer/ap";
                 caller.Reply(text1);
                 break;
             case 1:
                 switch (args[0])
                 {
                     case "allplayer":
+                    case "ap":
                         var list = GemID.Gems.ToList();
                         for (int i = 0; i < 7; i++)
                             list.Sort((_, _) => Main.rand.NextBool() ? 1 : -1);
@@ -68,6 +69,7 @@ public class GiveStarterPack : ModCommand
         foreach (var item in StarterPackList)
         {
             Item i = player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), item.Item1, item.Item2);
+            i.prefix = 0;
             if (item.Item3 != 0)
                 i.Prefix(item.Item3);
         }

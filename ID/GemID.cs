@@ -30,7 +30,7 @@ public class GemID
             return LargeDiamond;
         if (id == ItemID.LargeAmber)
             return LargeAmber;
-        throw new Exception($"GemID.FromItemID(int): 输入了错误的宝石物品ID：{id}");
+        return noError ? -1 : throw new Exception($"GemID.FromItemID(int): 输入了错误的宝石物品ID：{id}");
     }
     public static int FromNameToItemID(string name, bool noError = false)
     {
@@ -41,7 +41,7 @@ public class GemID
             "LargeSapphire" or "sapphire" => ItemID.LargeSapphire,
             "LargeEmerald" or "emerald" => ItemID.LargeEmerald,
             "LargeRuby" or "ruby" => ItemID.LargeRuby,
-            "LargeDiamond" or "sapphire" => ItemID.LargeDiamond,
+            "LargeDiamond" or "diamond" => ItemID.LargeDiamond,
             "LargeAmber" or "amber" => ItemID.LargeAmber,
             _ => noError ? -1 : throw new Exception($"GemID.FromName(string): 输入了错误的宝石名：{name}")
         };

@@ -122,15 +122,19 @@ public class CTGPlayer : ModPlayer
     public IList<int> ItemTypesForSave = new List<int>();
     public override void SaveData(TagCompound tag)
     {
-        tag.Add("CTGGemSlotTypes", ItemTypesForSave.ToList());
+        if (Player.whoAmI == Main.myPlayer)
+            tag.Add("CTGGemSlotTypes", ItemTypesForSave.ToList());
     }
     
     public IList<int> ItemTypesForLoad = new List<int>();
     public override void LoadData(TagCompound tag)
     {
-        IList<int> gemSlotItemList = tag.GetList<int>("CTGGemSlotTypes");
-        ItemTypesForLoad = new List<int>();
-        ItemTypesForLoad = gemSlotItemList.ToList();
+        if (Player.whoAmI == Main.myPlayer)
+        {
+            IList<int> gemSlotItemList = tag.GetList<int>("CTGGemSlotTypes");
+            ItemTypesForLoad = new List<int>();
+            ItemTypesForLoad = gemSlotItemList.ToList();
+        }
     }
     
     public override void ProcessTriggers(TriggersSet triggersSet)
