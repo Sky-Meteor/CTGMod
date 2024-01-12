@@ -6,6 +6,7 @@ using CTGMod.Content.Buffs.GemBuffs;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -118,6 +119,16 @@ public class CTGPlayer : ModPlayer
             Player.buffTime[gravIndex] = 60 * 60;
     }
 
+    public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+    {
+        if (Player.whoAmI == Main.myPlayer)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Player.DropItem(Player.GetSource_Death(), Player.Center, ref UISystem.Instance.GemSlot.ItemsRef[i]);
+            }
+        }
+    }
 
     public IList<int> ItemTypesForSave = new List<int>();
     public override void SaveData(TagCompound tag)
