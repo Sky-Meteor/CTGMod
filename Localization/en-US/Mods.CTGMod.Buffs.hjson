@@ -15,7 +15,7 @@ LargeDiamondBuff: {
 
 LargeEmeraldBuff: {
 	DisplayName: Large Emerald
-	Description: Your hook is 1.5x faster and 1.25x longer
+	Description: Your hook is 1.5x faster and 1.25x longer, increases knockback by 50%
 }
 
 LargeRubyBuff: {

@@ -123,6 +123,8 @@ public class GiveStarterPack : ModCommand
         }
 
         player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), gemType);
+        if (gemType == ItemID.LargeEmerald)
+            player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), ItemID.WebSlinger); // 蛛丝吊索
     }
 
     public static readonly List<(int, int, int)> StarterPackList = new ()

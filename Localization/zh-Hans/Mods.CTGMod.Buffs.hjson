@@ -15,7 +15,7 @@ LargeDiamondBuff: {
 
 LargeEmeraldBuff: {
 	DisplayName: 大翡翠
-	Description: 钩爪速度增加50%，长度增加25%
+	Description: 钩爪速度增加50%，长度增加25%，击退增加50%
 }
 
 LargeRubyBuff: {
