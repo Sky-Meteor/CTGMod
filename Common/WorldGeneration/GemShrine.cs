@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using CTGMod.Common.Utils;
 using Microsoft.Xna.Framework;
 using StructureHelper;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.GameContent.Tile_Entities;
 using Terraria.ID;
 using Terraria.IO;
+using Terraria.ModLoader;
+using Terraria.ModLoader.Default;
 using Terraria.WorldBuilding;
 
 namespace CTGMod.Common.WorldGeneration;
@@ -21,7 +26,7 @@ public class GemShrine
     {
         foreach (var gem in VanillaGems)
         {
-            for (int retry = 0; retry < 20; retry++)
+            for (int retry = 0; retry < 40; retry++)
             {
                 int x = Main.maxTilesX / 5 + WorldGen.genRand.Next(0, (int)(Main.maxTilesX * 0.6f));
                 int y = Main.maxTilesY / 3 + WorldGen.genRand.Next(0, (int)(Main.maxTilesY * 0.5f));
@@ -33,6 +38,8 @@ public class GemShrine
                     continue;
 
                 Generator.GenerateStructure($"Structures/{gem}Shrine", new Point16(x, y), CTGMod.Instance);
+                
+                //TETeleportationPylon.Place(x + (dim.X + 1) / 2, y + dim.Y - 1);
                 break;
             }
         }

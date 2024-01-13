@@ -7,11 +7,11 @@ public static class GenHelper
 {
     public static bool CanGenerateStructure(Rectangle rectangle, Func<int, int, bool> checkFunc)
     {
-        for (int x = rectangle.X; x < rectangle.Width; x++)
+        for (int x = 0; x < rectangle.Width; x++)
         {
-            for (int y = rectangle.Y; y < rectangle.Height; y++)
+            for (int y = 0; y < rectangle.Height; y++)
             {
-                if (!checkFunc(x, y))
+                if (!checkFunc(rectangle.X + x, rectangle.Y + y))
                     return false;
             }
         }

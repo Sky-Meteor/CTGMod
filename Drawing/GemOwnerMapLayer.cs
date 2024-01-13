@@ -29,16 +29,17 @@ public class GemOwnerMapLayer : ModMapLayer
             if (p == null || !p.active)
                 continue;
             CTGPlayer mp = p.GetModPlayer<CTGPlayer>();
+
+            _currentDisplayingGem.TryAdd(p.whoAmI, 0);
+
             if (_shouldUpdateGem)
             {
-                if (_currentDisplayingGem.ContainsKey(p.whoAmI))
-                    _currentDisplayingGem[p.whoAmI]++;
-                else
-                    _currentDisplayingGem.Add(p.whoAmI, 0);
+                _currentDisplayingGem[p.whoAmI]++;
+
                 if (_currentDisplayingGem[p.whoAmI] > mp.OwnedGems.Count - 1)
                     _currentDisplayingGem[p.whoAmI] = 0;
             }
-            if (p.whoAmI == Main.myPlayer || !mp.ShouldBeDrawnOnMap || p.dead || p.ghost)
+            if (!mp.ShouldBeDrawnOnMap || p.dead || p.ghost)
                 continue;
             if (!mp.OwnedGems.Contains(_currentDisplayingGem[p.whoAmI]))
                 _currentDisplayingGem[p.whoAmI] = 0;

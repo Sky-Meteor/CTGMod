@@ -116,10 +116,8 @@ public class GiveStarterPack : ModCommand
     {
         foreach (var item in StarterPackList)
         {
-            Item i = player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), item.Item1, item.Item2);
-            i.prefix = 0;
-            if (item.Item3 != 0)
-                i.Prefix(item.Item3);
+            int i = player.QuickSpawnItem(player.GetSource_GiftOrReward("CTGStarterPack"), item.Item1, item.Item2);
+            Main.item[i].prefix = item.Item3;
         }
 
         player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), gemType);
