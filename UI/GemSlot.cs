@@ -46,14 +46,15 @@ public class GemSlot : UIState
         }
 
         if (Main.LocalPlayer.gemCount == 0)
-            Main.LocalPlayer.GetModPlayer<CTGPlayer>().ItemTypesForSave = GetItemTypes();
-
-        // update gem info in CTGPlayer & UpdateArmorLightsPatch
+            UpdateItemTypesForSave();
+        // update gem info in CTGPlayer & DrawPlayerCTGPatch
 
         base.Update(gameTime);
     }
     
     public List<int> GetItemTypes() => _items.Select(item => item.type).ToList();
+
+    public void UpdateItemTypesForSave() => Main.LocalPlayer.GetModPlayer<CTGPlayer>().ItemTypesForSave = GetItemTypes();
 
     public ref Item[] ItemsRef => ref _items;
 

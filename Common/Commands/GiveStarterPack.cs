@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CTGMod.Common.Utils;
 using CTGMod.ID;
 using Terraria;
 using Terraria.ID;
@@ -115,10 +116,7 @@ public class GiveStarterPack : ModCommand
     public static void TryGivePack(Player player, int gemType)
     {
         foreach (var item in StarterPackList)
-        {
-            int i = player.QuickSpawnItem(player.GetSource_GiftOrReward("CTGStarterPack"), item.Item1, item.Item2);
-            Main.item[i].prefix = item.Item3;
-        }
+            player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), item.Item1, item.Item2, item.Item3);
 
         player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), gemType);
         if (gemType == ItemID.LargeEmerald)

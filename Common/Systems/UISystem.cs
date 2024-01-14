@@ -9,8 +9,8 @@ namespace CTGMod.Common.Systems;
 
 public class UISystem : ModSystem
 {
-    internal GemSlot GemSlot;
-    internal UserInterface GemSlotUserInterface;
+    internal static GemSlot GemSlot;
+    internal static UserInterface GemSlotUserInterface;
 
     internal static UISystem Instance => ModContent.GetInstance<UISystem>();
 

@@ -5,6 +5,7 @@ using CTGMod.Common.Systems;
 using CTGMod.Content.Buffs.GemBuffs;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
@@ -42,17 +43,18 @@ public class CTGPlayer : ModPlayer
                 }
             }
 
-            for (var i = 0; i < UISystem.Instance.GemSlot.ItemsRef.Length; i++)
+            for (var i = 0; i < ItemTypesForSave.Count; i++)
             {
-                ref var item = ref UISystem.Instance.GemSlot.ItemsRef[i];
-                if (GemID.Gems.Contains(item.type))
+                var type = ItemTypesForSave[i];
+                if (GemID.Gems.Contains(type))
                 {
                     count++;
-                    OwnedGems.Add(item.type);
+                    OwnedGems.Add(type);
                 }
                 else
                 {
-                    Player.DropItem(Player.GetSource_Misc("CTGGemSlotInvalidItem"), Player.Center, ref item);
+                    if (Player.whoAmI == Main.myPlayer && UISystem.GemSlot.ItemsRef[i].type == type)
+                        Player.DropItem(Player.GetSource_Misc("CTGGemSlotInvalidItem"), Player.Center, ref UISystem.GemSlot.ItemsRef[i]);
                 }
             }
 
@@ -63,8 +65,7 @@ public class CTGPlayer : ModPlayer
         if (UpdateTimer >= CTGConfig.Instance.PlayerPositionUpdateTime)
         {
             UpdateTimer = 0;
-            if (ShouldBeDrawnOnMap)
-                DrawCenter = Player.Center;
+            DrawCenter = Player.Center;
         }
     }
 
@@ -125,7 +126,7 @@ public class CTGPlayer : ModPlayer
         {
             for (int i = 0; i < 10; i++)
             {
-                Player.DropItem(Player.GetSource_Death(), Player.Center, ref UISystem.Instance.GemSlot.ItemsRef[i]);
+                Player.DropItem(Player.GetSource_Death(), Player.Center, ref UISystem.GemSlot.ItemsRef[i]);
             }
         }
     }
@@ -152,10 +153,42 @@ public class CTGPlayer : ModPlayer
     {
         if (CTGMod.GemSlotKey.JustPressed && Main.LocalPlayer.chest == -1)
         {
-            UISystem.Instance.GemSlot.Visible = !UISystem.Instance.GemSlot.Visible;
+            UISystem.GemSlot.Visible = !UISystem.GemSlot.Visible;
 
-            if (UISystem.Instance.GemSlot.Visible && !Main.playerInventory)
+            if (UISystem.GemSlot.Visible && !Main.playerInventory)
                 Main.playerInventory = true;
+        }
+    }
+
+    public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+    {
+        ModPacket packet = Mod.GetPacket();
+        packet.Write((byte)CTGPacketID.SyncGemSlotItems);
+        packet.Write((byte)Player.whoAmI);
+        packet.Write(JsonConvert.SerializeObject(ItemTypesForSave));
+        packet.Send(toWho, fromWho);
+    }
+
+    public override void CopyClientState(ModPlayer targetCopy)
+    {
+        if (targetCopy is not CTGPlayer mp)
+            return;
+        mp.ItemTypesForSave = ItemTypesForSave.ToList();
+    }
+    
+
+    public override void SendClientChanges(ModPlayer clientPlayer)
+    {
+        if (clientPlayer is not CTGPlayer mp)
+            return;
+
+        if (!mp.ItemTypesForSave.SequenceEqual(ItemTypesForSave))
+        {
+            ModPacket packet = Mod.GetPacket();
+            packet.Write((byte)CTGPacketID.SyncGemSlotItems);
+            packet.Write((byte)Player.whoAmI);
+            packet.Write(JsonConvert.SerializeObject(ItemTypesForSave));
+            packet.Send(-1, Player.whoAmI);
         }
     }
 

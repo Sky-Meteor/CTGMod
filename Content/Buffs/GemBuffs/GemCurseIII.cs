@@ -9,6 +9,13 @@ public class GemCurseIII : BaseGemBuff
 {
     public override string Texture => "CTGMod/Content/Buffs/BuffPlaceholder";
 
+    public override void SetStaticDefaults()
+    {
+        base.SetStaticDefaults();
+        Main.debuff[Type] = true;
+        BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
+    }
+
     public override void Update(Player player, ref int buffIndex)
     {
         player.buffImmune[ModContent.BuffType<GemCurseI>()] = true;

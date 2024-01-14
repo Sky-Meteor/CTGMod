@@ -41,8 +41,6 @@ public class GemOwnerMapLayer : ModMapLayer
             }
             if (!mp.ShouldBeDrawnOnMap || p.dead || p.ghost)
                 continue;
-            if (!mp.OwnedGems.Contains(_currentDisplayingGem[p.whoAmI]))
-                _currentDisplayingGem[p.whoAmI] = 0;
 
             Vector2 position = p.GetModPlayer<CTGPlayer>().DrawCenter / 16f;
             if (position == Vector2.Zero)

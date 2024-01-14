@@ -44,7 +44,7 @@ public class CTGGlobalItem : GlobalItem
 
     public override bool CanRightClick(Item item)
     {
-        if (GemID.Gems.Contains(item.type) && UISystem.Instance.GemSlot.TryInsert(item))
+        if (GemID.Gems.Contains(item.type) && UISystem.GemSlot.TryInsert(item))
         {
             item.TurnToAir();
             return true;
