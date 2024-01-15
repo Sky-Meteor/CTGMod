@@ -6,7 +6,7 @@ namespace CTGMod.Content.Buffs.GemBuffs;
 
 public class GemCurseI : BaseGemBuff
 {
-    public override string Texture => "CTGMod/Content/Buffs/BuffPlaceholder";
+    public override string Texture => "CTGMod/Content/Buffs/DebuffPlaceholder";
 
     public override void SetStaticDefaults()
     {
