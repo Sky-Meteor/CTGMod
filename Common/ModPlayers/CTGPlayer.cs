@@ -21,13 +21,16 @@ public class CTGPlayer : ModPlayer
 
     public bool ShouldBeDrawnOnMap;
 
-    public static int UpdateTimer;
+    /// <summary>
+    /// A Timer in second that syncs with CTGGameSystem
+    /// </summary>
+    public int UpdateTimer;
 
     public Vector2 DrawCenter = Vector2.Zero;
 
     public override void ResetEffects()
     {
-        if (CTGConfig.Instance.PlayerPositionUpdateTime < 10 ? UpdateTimer >= CTGConfig.Instance.PlayerPositionUpdateTime : UpdateTimer % 10 == 0)
+        if (Player.gemCount == 1)
         {
             ShouldBeDrawnOnMap = false;
             OwnedGems.Clear();

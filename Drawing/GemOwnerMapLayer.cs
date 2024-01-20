@@ -14,14 +14,14 @@ namespace CTGMod.Drawing;
 public class GemOwnerMapLayer : ModMapLayer
 {
     private int _timer;
-    private bool _shouldUpdateGem;
+    private bool _shouldCycleGem;
     private static Dictionary<int, int> _currentDisplayingGem = new();
     public override void Draw(ref MapOverlayDrawContext context, ref string text)
     {
-        _shouldUpdateGem = false;
+        _shouldCycleGem = false;
         if (++_timer >= 60)
         {
-            _shouldUpdateGem = true;
+            _shouldCycleGem = true;
             _timer = 0;
         }
         foreach (Player p in Main.player)
@@ -32,17 +32,16 @@ public class GemOwnerMapLayer : ModMapLayer
 
             _currentDisplayingGem.TryAdd(p.whoAmI, 0);
 
-            if (_shouldUpdateGem)
-            {
+            if (_shouldCycleGem)
                 _currentDisplayingGem[p.whoAmI]++;
 
-                if (_currentDisplayingGem[p.whoAmI] > mp.OwnedGems.Count - 1)
-                    _currentDisplayingGem[p.whoAmI] = 0;
-            }
-            if (!mp.ShouldBeDrawnOnMap || p.dead || p.ghost)
+            if (!mp.ShouldBeDrawnOnMap || mp.OwnedGems.Count == 0 || p.dead || p.ghost)
                 continue;
 
-            Vector2 position = p.GetModPlayer<CTGPlayer>().DrawCenter / 16f;
+            if (_currentDisplayingGem[p.whoAmI] > mp.OwnedGems.Count - 1)
+                _currentDisplayingGem[p.whoAmI] = 0;
+
+            Vector2 position = mp.DrawCenter / 16f;
             if (position == Vector2.Zero)
                 return;
 

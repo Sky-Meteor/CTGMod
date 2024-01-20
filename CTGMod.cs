@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using CTGMod.Common.ModPlayers;
+using CTGMod.Common.Systems;
 using CTGMod.ID;
 using Newtonsoft.Json;
 using Terraria;
@@ -18,15 +19,29 @@ namespace CTGMod
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             byte packetID = reader.ReadByte();
+            Player player;
+            CTGPlayer mp;
             switch (packetID)
             {
                 case CTGPacketID.SyncGemSlotItems:
-                    Player player = Main.player[reader.ReadByte()];
-                    CTGPlayer mp = player.GetModPlayer<CTGPlayer>();
+                    player = Main.player[reader.ReadByte()];
+                    mp = player.GetModPlayer<CTGPlayer>();
                     mp.ItemTypesForSave = JsonConvert.DeserializeObject<IList<int>>(reader.ReadString());
 
                     if (Main.netMode == NetmodeID.Server)
                         mp.SyncPlayer(-1, whoAmI, false);
+                    break;
+                case CTGPacketID.StartGame:
+                    CTGGameSystem.GameStarted = true;
+                    CTGGameSystem.GameTime = 0;
+                    if (Main.netMode == NetmodeID.Server)
+                        NetMessage.SendData(MessageID.WorldData);
+                    break;
+                case CTGPacketID.EndGame:
+                    CTGGameSystem.GameStarted = false;
+                    CTGGameSystem.GameTime = 0;
+                    if (Main.netMode == NetmodeID.Server)
+                        NetMessage.SendData(MessageID.WorldData);
                     break;
             }
         }
