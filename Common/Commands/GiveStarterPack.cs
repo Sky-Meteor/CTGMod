@@ -27,30 +27,14 @@ public class GiveStarterPack : ModCommand
         switch (args.Length)
         {
             case 0:
-                string text1 = Usage;
-                caller.Reply(text1);
+                caller.Reply(Usage);
                 break;
             case 1:
                 switch (args[0])
                 {
                     case "allplayer":
                     case "ap":
-                        var list = GemID.Gems.ToList();
-                        for (int i = 0; i < 7; i++)
-                            list.Sort((_, _) => Main.rand.NextBool() ? 1 : -1);
-                        int packCount = 0;
-
-                        foreach (Player p in Main.player)
-                        {
-                            if (p != null && p.active)
-                                TryGivePack(p, list[packCount]);
-                            if (++packCount >= 7)
-                            {
-                                packCount = 0;
-                                for (int i = 0; i < 7; i++)
-                                    list.Sort((_, _) => Main.rand.NextBool() ? 1 : -1);
-                            }
-                        }
+                        TryGivePackToAllPlayers();
                         break;
                     case "player":
                     case "p":
@@ -123,6 +107,28 @@ public class GiveStarterPack : ModCommand
             player.QuickSpawnItemDirect(player.GetSource_GiftOrReward("CTGStarterPack"), ItemID.WebSlinger); // 蛛丝吊索
     }
 
+    public static void TryGivePackToAllPlayers()
+    {
+        var list = GemID.Gems.ToList();
+        for (int i = 0; i < 7; i++)
+            list.Sort((_, _) => Main.rand.NextBool() ? 1 : -1);
+        int packCount = 0;
+
+        foreach (Player p in Main.player)
+        {
+            if (p != null && p.active)
+                TryGivePack(p, list[packCount]);
+            else
+                continue;
+            if (++packCount >= 7)
+            {
+                packCount = 0;
+                for (int i = 0; i < 7; i++)
+                    list.Sort((_, _) => Main.rand.NextBool() ? 1 : -1);
+            }
+        }
+    }
+
     public static readonly List<(int, int, int)> StarterPackList = new ()
     {
         (ItemID.LifeCrystal, 10, 0),
@@ -131,7 +137,6 @@ public class GiveStarterPack : ModCommand
         (ItemID.Torch, 100, 0),
         (ItemID.IronBar, 15, 0),
         (ItemID.GoldenDelight, 1, 0),
-        (ItemID.TeleportationPotion, 1, 0),
         (ItemID.GPS, 1, 0),
         (ItemID.CloudinaBottle, 1, 0)
     };

@@ -1,12 +1,9 @@
-﻿using CsvHelper.TypeConversion;
+﻿using CTGMod.Common.ModPlayers;
 using CTGMod.Common.Systems;
 using CTGMod.Common.Utils;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Chat;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CTGMod.Common.Commands;
@@ -24,7 +21,7 @@ public class CTGCommand : ModCommand
             caller.Reply("命令错误：缺少参数");
         }
 
-        switch (args[0])
+        switch (args[0].ToLower())
         {
             case "start":
                 if (CTGGameSystem.GameStarted)
@@ -37,16 +34,29 @@ public class CTGCommand : ModCommand
                 {
                     CTGGameSystem.GameStarted = true;
                     CTGGameSystem.GameTime = 0;
+                    Main.LocalPlayer.GetModPlayer<CTGPlayer>().TryUseTeleportation = true;
                 }
                 else
                 {
                     ModPacket packet = Mod.GetPacket();
                     packet.Write((byte)CTGPacketID.StartGame);
                     packet.Send();
+                    foreach (var plr in Main.player)
+                    {
+                        if (plr == null || !plr.active)
+                            continue;
+                        plr.GetModPlayer<CTGPlayer>().TryUseTeleportation = true;
+                    }
                 }
                 CTGUtil.PrintText("游戏开始！", Color.Gold);
                 break;
             case "stop":
+                if (!CTGGameSystem.GameStarted)
+                {
+                    caller.Reply("游戏未进行");
+                    break;
+                }
+
                 if (CTGUtil.SinglePlayerCheck)
                 {
                     CTGGameSystem.GameStarted = false;
@@ -58,7 +68,7 @@ public class CTGCommand : ModCommand
                     packet2.Write((byte)CTGPacketID.EndGame);
                     packet2.Send();
                 }
-                CTGUtil.PrintText("游戏开始！", Color.Gold);
+                CTGUtil.PrintText("游戏停止！", Color.Gold);
                 break;
             case "when":
                 if (!CTGGameSystem.GameStarted)
@@ -67,6 +77,9 @@ public class CTGCommand : ModCommand
                     break;
                 }
                 caller.Reply($"当前游戏时间：{CTGGameSystem.GameTime / 60}秒", Color.Gold);
+                break;
+            case "prepare":
+                GiveStarterPack.TryGivePackToAllPlayers();
                 break;
             default:
                 caller.Reply($"命令错误：参数{args[0]}错误");

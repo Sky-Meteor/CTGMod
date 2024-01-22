@@ -24,5 +24,5 @@ public static class CTGUtil
 
     public static bool SinglePlayerCheck => Main.netMode == NetmodeID.SinglePlayer;
     public static bool MultiplayerClientCheck => Main.netMode == NetmodeID.MultiplayerClient;
-    public static bool ServerCheck => Main.netMode == NetmodeID.Server;
+    public static bool ServerCheck => Main.netMode == NetmodeID.Server; 
 }

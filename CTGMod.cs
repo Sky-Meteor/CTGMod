@@ -2,6 +2,7 @@
 using System.IO;
 using CTGMod.Common.ModPlayers;
 using CTGMod.Common.Systems;
+using CTGMod.Common.Utils;
 using CTGMod.ID;
 using Newtonsoft.Json;
 using Terraria;
@@ -27,20 +28,19 @@ namespace CTGMod
                     player = Main.player[reader.ReadByte()];
                     mp = player.GetModPlayer<CTGPlayer>();
                     mp.ItemTypesForSave = JsonConvert.DeserializeObject<IList<int>>(reader.ReadString());
-
-                    if (Main.netMode == NetmodeID.Server)
+                    if (CTGUtil.ServerCheck)
                         mp.SyncPlayer(-1, whoAmI, false);
                     break;
                 case CTGPacketID.StartGame:
                     CTGGameSystem.GameStarted = true;
                     CTGGameSystem.GameTime = 0;
-                    if (Main.netMode == NetmodeID.Server)
+                    if (CTGUtil.ServerCheck)
                         NetMessage.SendData(MessageID.WorldData);
                     break;
                 case CTGPacketID.EndGame:
                     CTGGameSystem.GameStarted = false;
                     CTGGameSystem.GameTime = 0;
-                    if (Main.netMode == NetmodeID.Server)
+                    if (CTGUtil.ServerCheck)
                         NetMessage.SendData(MessageID.WorldData);
                     break;
             }

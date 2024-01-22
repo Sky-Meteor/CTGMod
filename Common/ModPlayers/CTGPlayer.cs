@@ -26,6 +26,8 @@ public class CTGPlayer : ModPlayer
     /// </summary>
     public int UpdateTimer;
 
+    public bool TryUseTeleportation;
+
     public Vector2 DrawCenter = Vector2.Zero;
 
     public override void ResetEffects()
@@ -77,7 +79,7 @@ public class CTGPlayer : ModPlayer
         //if (GemID.Gems.Contains(Player.trashItem.type))
         //Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name}遭到天谴。"), 999, 1);
     }
-
+    
     public override void PostUpdateMiscEffects()
     {
         foreach (int gem in OwnedGems)
@@ -114,6 +116,12 @@ public class CTGPlayer : ModPlayer
             Player.AddBuff(ModContent.BuffType<GemCurseII>(), 2);
         else if (OwnedGems.Count >= 5)
             Player.AddBuff(ModContent.BuffType<GemCurseIII>(), 2);
+
+        if (TryUseTeleportation)
+        {
+            Player.TeleportationPotion();
+            TryUseTeleportation = false;
+        }
     }
 
     public override void PostUpdateBuffs()
@@ -210,4 +218,11 @@ public class CTGPlayer : ModPlayer
         ItemTypesForSave = null;
         ItemTypesForLoad = null;
     }
+}
+
+public enum PlayerGroup
+{
+    Player,
+    Spectator,
+    Admin
 }
