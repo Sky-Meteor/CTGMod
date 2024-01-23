@@ -4,6 +4,7 @@ using CTGMod.Common.Configs;
 using CTGMod.Common.Systems;
 using CTGMod.Content.Buffs.GemBuffs;
 using CTGMod.ID;
+using CTGMod.UI;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Terraria;
@@ -76,8 +77,14 @@ public class CTGPlayer : ModPlayer
 
     public override void PreUpdate()
     {
-        //if (GemID.Gems.Contains(Player.trashItem.type))
-        //Player.KillMe(PlayerDeathReason.ByCustomReason($"{Player.name}遭到天谴。"), 999, 1);
+        if (GemID.Gems.Contains(Player.trashItem.type))
+        {
+            Player.DropItem(Player.GetSource_DropAsItem(), Player.Center, ref Player.trashItem);
+            if (Player.whoAmI == Main.myPlayer)
+            {
+                Main.NewText("禁止把宝石丢进垃圾桶！", Color.Red);
+            }
+        }
     }
     
     public override void PostUpdateMiscEffects()
@@ -140,6 +147,22 @@ public class CTGPlayer : ModPlayer
                 Player.DropItem(Player.GetSource_Death(), Player.Center, ref UISystem.GemSlot.ItemsRef[i]);
             }
         }
+    }
+
+    public override bool OnPickup(Item item)
+    {
+        if (Player.whoAmI == Main.myPlayer && CTGConfig.Instance.AutoGemSlot && GemID.Gems.Contains(item.type))
+        {
+            int index = UISystem.GemSlot.ItemsRef.ToList().FindIndex(i => i.type == ItemID.None);
+            if (index != -1)
+            {
+                UISystem.GemSlot.ItemsRef[index] = item;
+                PopupText.NewText(PopupTextContext.ItemPickupToVoidContainer, item, 1); // manually display pickup text
+                UISystem.GemSlot.UpdateItemTypesForSave();
+                return false;
+            }
+        }
+        return base.OnPickup(item);
     }
 
     public IList<int> ItemTypesForSave = new List<int>();

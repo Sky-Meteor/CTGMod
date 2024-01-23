@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CTGMod.Common.Systems;
 using CTGMod.Drawing;
-using CTGMod.ID;
+using CTGMod.Drawing.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

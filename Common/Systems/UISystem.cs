@@ -28,6 +28,15 @@ public class UISystem : ModSystem
         GemSlotUserInterface?.Update(gameTime);
     }
 
+    public override void PreSaveAndQuit()
+    {
+        GemSlot.UpdateItemTypesForSave();
+        for (int i = 0; i < 10; i++)
+        {
+            GemSlot.ItemsRef[i] = new Item();
+        }
+    }
+
     public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
     {
         int index = layers.FindIndex(l => l.Name == "Vanilla: Inventory");

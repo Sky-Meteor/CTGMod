@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CTGMod.Common.ModPlayers;
+using CTGMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.GameContent.UI.States;
 using Terraria.UI;
 
 namespace CTGMod.UI;
@@ -14,6 +16,9 @@ public class GemSlot : UIState
     private UIItemSlot[] _slots;
     
     public bool Visible;
+
+    private bool _requestUpdate;
+    private int _saveTimer;
 
     public override void OnInitialize()
     {
@@ -27,6 +32,16 @@ public class GemSlot : UIState
             _slots[i].Top.Set(500f * Main.inventoryScale, 0f);
             Append(_slots[i]);
         }
+
+        ItemSlot.OnItemTransferred += info =>
+        {
+            if (GemID.Gems.Contains(info.ItemType) && (info.FromContenxt == ItemSlot.Context.BankItem || info.ToContext == ItemSlot.Context.BankItem))
+            {
+                _requestUpdate = true;
+            }
+        };
+
+        _requestUpdate = true; // immediate update when entering world
     }
 
     public override void Update(GameTime gameTime)
@@ -42,11 +57,14 @@ public class GemSlot : UIState
                 _items[i] = new Item(itemTypesForLoad[i]);
             }
             itemTypesForLoad.Clear();
-
         }
 
-        if (Main.LocalPlayer.gemCount == 0)
+        if (++_saveTimer >= 1200 || _requestUpdate)
+        {
+            _saveTimer = 0;
+            _requestUpdate = false;
             UpdateItemTypesForSave();
+        }
         // update gem info in CTGPlayer & DrawPlayerCTGPatch
 
         base.Update(gameTime);

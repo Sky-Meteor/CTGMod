@@ -1,0 +1,34 @@
+AmberPylon: {
+	DisplayName: Amber Pylon
+	Tooltip: ""
+}
+
+AmethystPylon: {
+	DisplayName: Amethyst Pylon
+	Tooltip: ""
+}
+
+DiamondPylon: {
+	DisplayName: Diamond Pylon
+	Tooltip: ""
+}
+
+EmeraldPylon: {
+	DisplayName: Emerald Pylon
+	Tooltip: ""
+}
+
+RubyPylon: {
+	DisplayName: Ruby Pylon
+	Tooltip: ""
+}
+
+SapphirePylon: {
+	DisplayName: Sapphire Pylon
+	Tooltip: ""
+}
+
+TopazPylon: {
+	DisplayName: Topaz Pylon
+	Tooltip: ""
+}

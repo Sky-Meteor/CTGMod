@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace CTGMod
 {
-	public class CTGMod : Mod
+    public class CTGMod : Mod
     {
         public static CTGMod Instance;
 

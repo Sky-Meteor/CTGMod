@@ -10,9 +10,16 @@ public class CTGConfig : ModConfig
 {
     public override ConfigScope Mode => ConfigScope.ServerSide;
 
-    [DefaultValue(10)]
+    [DefaultValue(5)]
     [Range(1, 60 * 60 * 20)]
     public int PlayerPositionUpdateTime;
+
+    [DefaultValue(true)]
+    public bool AutoGemSlot;
+
+    [DefaultValue(500)]
+    [Range(50, 5000)]
+    public int ShrineDistance;
 
     public static CTGConfig Instance => ModContent.GetInstance<CTGConfig>();
 

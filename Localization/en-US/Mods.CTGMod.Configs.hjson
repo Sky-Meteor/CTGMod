@@ -1,8 +1,18 @@
 CTGConfig: {
+	DisplayName: CTG Config
+
 	PlayerPositionUpdateTime: {
 		Tooltip: Time between player position updates on map in second
 		Label: Player Position Update Time
 	}
 
-	DisplayName: CTG Config
+	AutoGemSlot: {
+		Label: Auto Gem Slot
+		Tooltip: Automatically stores an item to your Gem Slot if it's a gem
+	}
+
+	ShrineDistance: {
+		Label: Shrine Distance
+		Tooltip: Distance between gem shrines in World Generation
+	}
 }

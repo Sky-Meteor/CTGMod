@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using CTGMod.Drawing.Element;
-using CTGMod.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.GameContent;
+using CTGMod.ID;
 
 namespace CTGMod.Drawing;
 
 public class GemMapIcons
 {
     public static Dictionary<Tuple<int, int>, Texture2D> GemMapIconContents = new();
-    public static bool Loaded = false;
+    public static bool Loaded;
     public static void PrepareMapIcons()
     {
         GemMapIconContents.Clear();
@@ -20,7 +20,7 @@ public class GemMapIcons
         {
             for (int team = 0; team < Main.teamColor.Length; team++)
             {
-                Texture2D texture = gemID <= 6 ? TextureAssets.Gem[gemID].Value : ModContent.Request<Texture2D>($"CTGMod/Assets/Gems/{gemID}").Value;
+                Texture2D texture = gemID <= 6 ? TextureAssets.Gem[gemID].Value : ModContent.Request<Texture2D>($"CTGMod/Assets/Gems/Gem_{gemID}").Value;
                 var icon = new OutlinedMapIcon(texture, Main.teamColor[team]);
                 icon.Request();
                 icon.PrepareRenderTarget();

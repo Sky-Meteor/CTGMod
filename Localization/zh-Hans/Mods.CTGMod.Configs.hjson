@@ -1,8 +1,18 @@
 CTGConfig: {
+	DisplayName: CTG 模组配置
+
 	PlayerPositionUpdateTime: {
 		Tooltip: 玩家在地图上的位置更新的时间间隔（单位为秒）
 		Label: 玩家位置更新间隔
 	}
 
-	DisplayName: CTG 模组配置
+	AutoGemSlot: {
+		Label: 自动存入宝石栏
+		Tooltip: 当你捡起一个宝石的时候，自动把它存到宝石栏
+	}
+
+	ShrineDistance: {
+		Label: 神龛距离
+		Tooltip: 世界生成时两个神龛之间的最短距离
+	}
 }

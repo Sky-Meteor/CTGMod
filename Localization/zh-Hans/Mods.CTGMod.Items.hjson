@@ -1,0 +1,34 @@
+AmberPylon: {
+	DisplayName: 琥珀晶塔
+	// Tooltip: ""
+}
+
+AmethystPylon: {
+	DisplayName: 紫晶晶塔
+	// Tooltip: ""
+}
+
+DiamondPylon: {
+	DisplayName: 钻石晶塔
+	// Tooltip: ""
+}
+
+EmeraldPylon: {
+	DisplayName: 翡翠晶塔
+	// Tooltip: ""
+}
+
+RubyPylon: {
+	DisplayName: 红玉晶塔
+	// Tooltip: ""
+}
+
+SapphirePylon: {
+	DisplayName: 蓝玉晶塔
+	// Tooltip: ""
+}
+
+TopazPylon: {
+	DisplayName: 黄玉晶塔
+	// Tooltip: ""
+}
