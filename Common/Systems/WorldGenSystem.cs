@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using CTGMod.Common.WorldGeneration;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
 using Terraria.GameContent.Generation;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -41,7 +40,7 @@ public class WorldGenSystem : ModSystem
         int index = tasks.FindIndex(genPass => genPass.Name.Equals("Micro Biomes"));
         tasks.Insert(index + 1, new PassLegacy("正在生成宝石神龛", GemShrine.GenerateGemShrine));
     }
-
+    
     public override void Load()
     {
         Shrines = new Dictionary<string, Rectangle>();

@@ -56,11 +56,14 @@ public abstract class BaseGemPylonTile<TItem, TPylon> : ModPylon
         TileObjectData.newTile.HookCheckIfCanPlace = new PlacementHook(moddedPylon.PlacementPreviewHook_CheckIfCanPlace, 1, 0, true);
         TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(moddedPylon.Hook_AfterPlacement, -1, 0, false);
 
+        MinPick = 225;
+        
         TileObjectData.addTile(Type);
-
+        
         TileID.Sets.InteractibleByNPCs[Type] = true;
         TileID.Sets.PreventsSandfall[Type] = true;
         TileID.Sets.AvoidedByMeteorLanding[Type] = true;
+        TileID.Sets.PreventsTileRemovalIfOnTopOfIt[Type] = true;
 
         // Adds functionality for proximity of pylons; if this is true, then being near this tile will count as being near a pylon for the teleportation process.
         AddToArray(ref TileID.Sets.CountsAsPylon);
@@ -68,6 +71,9 @@ public abstract class BaseGemPylonTile<TItem, TPylon> : ModPylon
         LocalizedText pylonName = CreateMapEntryName(); //Name is in the localization file
         AddMapEntry(Color.White, pylonName);
     }
+
+    public override bool CanExplode(int i, int j) => false;
+    
     public override NPCShop.Entry GetNPCShopEntry() => null;
 
     public override void MouseOver(int i, int j)

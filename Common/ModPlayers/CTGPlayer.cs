@@ -4,7 +4,6 @@ using CTGMod.Common.Configs;
 using CTGMod.Common.Systems;
 using CTGMod.Content.Buffs.GemBuffs;
 using CTGMod.ID;
-using CTGMod.UI;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Terraria;
