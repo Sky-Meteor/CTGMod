@@ -30,7 +30,7 @@ public class DisableTeleportPatch : ModSystem
     private void Teleport(On_Player.orig_Teleport orig, Player self, Vector2 newPos, int Style, int extraInfo)
     {
         // shimmer unstuck -> 12
-        if (!self.GetModPlayer<CTGEffectPlayer>().DisableTeleport || Style == 12)
+        if (!self.GetModPlayer<CTGEffectPlayer>().DisableTeleport || self.GetModPlayer<CTGPlayer>().TryUseTeleportation || Style == 12)
             orig.Invoke(self, newPos, Style, extraInfo);
         else
         {
@@ -42,7 +42,7 @@ public class DisableTeleportPatch : ModSystem
 
     public override bool HijackSendData(int whoAmI, int msgType, int remoteClient, int ignoreClient, NetworkText text, int number, float number2, float number3, float number4, int number5, int number6, int number7)
     {
-        if (msgType == MessageID.TeleportEntity && Main.player[(int)number2].GetModPlayer<CTGEffectPlayer>().DisableTeleport && number5 != 12)
+        if (msgType == MessageID.TeleportEntity && Main.player[(int)number2].GetModPlayer<CTGEffectPlayer>().DisableTeleport && !Main.player[(int)number2].GetModPlayer<CTGPlayer>().TryUseTeleportation && number5 != 12)
             return true;
         if (msgType == MessageID.PlayerSpawn && Main.player[number].GetModPlayer<CTGEffectPlayer>().DisableTeleport && (PlayerSpawnContext)(int)number2 == PlayerSpawnContext.RecallFromItem)
             return true;

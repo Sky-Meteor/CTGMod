@@ -65,7 +65,7 @@ public class GemSlot : UIState
             _requestUpdate = false;
             UpdateItemTypesForSave();
         }
-        // update gem info in CTGPlayer & DrawPlayerCTGPatch
+        // update gem info in CTGPlayer & UpdateOwnedGemsPatch
 
         base.Update(gameTime);
     }

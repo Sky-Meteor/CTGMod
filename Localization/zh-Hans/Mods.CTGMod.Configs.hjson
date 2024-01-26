@@ -15,4 +15,9 @@ CTGConfig: {
 		Label: 神龛距离
 		Tooltip: 世界生成时两个神龛之间的最短距离
 	}
+
+	DrawExtraGems: {
+		Label: 绘制额外宝石
+		Tooltip: 暂时效果：使同宝石绘制两次。设为服务器端配置因为这玩意会让你被敌人发现的范围变大，可选开启
+	}
 }

@@ -19,71 +19,101 @@ public class CTGCommand : ModCommand
         if (args.Length < 1)
         {
             caller.Reply("命令错误：缺少参数");
+            return;
         }
 
-        switch (args[0].ToLower())
+        if (args.Length < 2)
         {
-            case "start":
-                if (CTGGameSystem.GameStarted)
-                {
-                    caller.Reply("游戏正在进行");
-                    break;
-                }
-
-                if (CTGUtil.SinglePlayerCheck)
-                {
-                    CTGGameSystem.GameStarted = true;
-                    CTGGameSystem.GameTime = 0;
-                    Main.LocalPlayer.GetModPlayer<CTGPlayer>().TryUseTeleportation = true;
-                }
-                else
-                {
-                    ModPacket packet = Mod.GetPacket();
-                    packet.Write((byte)CTGPacketID.StartGame);
-                    packet.Send();
-                    foreach (var plr in Main.player)
+            switch (args[0].ToLower())
+            {
+                case "start":
+                    if (CTGGameSystem.GameStarted)
                     {
-                        if (plr == null || !plr.active)
-                            continue;
-                        plr.GetModPlayer<CTGPlayer>().TryUseTeleportation = true;
+                        caller.Reply("游戏正在进行");
+                        break;
                     }
-                }
-                CTGUtil.PrintText("游戏开始！", Color.Gold);
-                break;
-            case "stop":
-                if (!CTGGameSystem.GameStarted)
-                {
-                    caller.Reply("游戏未进行");
-                    break;
-                }
 
-                if (CTGUtil.SinglePlayerCheck)
-                {
-                    CTGGameSystem.GameStarted = false;
-                    CTGGameSystem.GameTime = 0;
-                }
-                else
-                {
-                    ModPacket packet2 = Mod.GetPacket();
-                    packet2.Write((byte)CTGPacketID.EndGame);
-                    packet2.Send();
-                }
-                CTGUtil.PrintText("游戏停止！", Color.Gold);
-                break;
-            case "when":
-                if (!CTGGameSystem.GameStarted)
-                {
-                    caller.Reply("游戏未开始！");
+                    if (CTGUtil.SinglePlayerCheck)
+                    {
+                        CTGGameSystem.GameStarted = true;
+                        CTGGameSystem.GameTime = 0;
+                        Main.LocalPlayer.GetModPlayer<CTGPlayer>().TryUseTeleportation = true;
+                    }
+                    else
+                    {
+                        ModPacket packet = Mod.GetPacket();
+                        packet.Write((byte)CTGPacketID.StartGame);
+                        packet.Send();
+                        foreach (var plr in Main.player)
+                        {
+                            if (plr == null || !plr.active)
+                                continue;
+                            plr.GetModPlayer<CTGPlayer>().TryUseTeleportation = true;
+                        }
+                    }
+                    CTGUtil.PrintText("游戏开始！", Color.Gold);
                     break;
-                }
-                caller.Reply($"当前游戏时间：{CTGGameSystem.GameTime / 60}秒", Color.Gold);
-                break;
-            case "prepare":
-                GiveStarterPack.TryGivePackToAllPlayers();
-                break;
-            default:
-                caller.Reply($"命令错误：参数{args[0]}错误");
-                break;
+                case "stop":
+                    if (!CTGGameSystem.GameStarted)
+                    {
+                        caller.Reply("游戏未进行");
+                        break;
+                    }
+
+                    if (CTGUtil.SinglePlayerCheck)
+                    {
+                        CTGGameSystem.GameStarted = false;
+                        CTGGameSystem.GameTime = 0;
+                    }
+                    else
+                    {
+                        ModPacket packet2 = Mod.GetPacket();
+                        packet2.Write((byte)CTGPacketID.EndGame);
+                        packet2.Send();
+                    }
+                    CTGUtil.PrintText("游戏停止！", Color.Gold);
+                    break;
+                case "when":
+                    if (!CTGGameSystem.GameStarted)
+                    {
+                        caller.Reply("游戏未开始！");
+                        break;
+                    }
+                    caller.Reply($"当前游戏时间：{CTGGameSystem.GameTime / 60}秒", Color.Gold);
+                    break;
+                case "prepare":
+                    GiveStarterPack.TryGivePackToAllPlayers();
+                    break;
+                default:
+                    caller.Reply($"命令错误：参数{args[0]}错误");
+                    break;
+            }
+        }
+        else if (args.Length < 3)
+        {
+            switch (args[0].ToLower())
+            {
+                case "group":
+                    switch (args[1].ToLower())
+                    {
+                        case "player":
+                        case "p":
+                            CTGGameSystem.Group = PlayerGroup.Player;
+                            CTGUtil.PrintText($"{caller.Player.name}已加入玩家组", Color.Aqua);
+                            break;
+                        case "admin":
+                        case "a":
+                            CTGGameSystem.Group = PlayerGroup.Admin;
+                            CTGUtil.PrintText($"{caller.Player.name}已加入管理员组", Color.Aqua);
+                            break;
+                        case "spectator":
+                        case "s":
+                            CTGGameSystem.Group = PlayerGroup.Spectator;
+                            CTGUtil.PrintText($"{caller.Player.name}已加入旁观者组", Color.Aqua);
+                            break;
+                    }
+                    break;
+            }
         }
     }
 }

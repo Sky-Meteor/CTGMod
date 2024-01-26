@@ -19,11 +19,11 @@ public class GemShrine
     {
         "Amber",
         "Amethyst",
-        "Diamond",
+        /*"Diamond",
         "Emerald",
         "Ruby",
         "Sapphire",
-        "Topaz",
+        "Topaz",*/
     };
 
     public static void GenerateGemShrine(GenerationProgress progress, GameConfiguration configuration)

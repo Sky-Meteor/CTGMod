@@ -21,6 +21,10 @@ public class CTGConfig : ModConfig
     [Range(50, 5000)]
     public int ShrineDistance;
 
+    [DefaultValue(true)]
+    [ReloadRequired]
+    public bool DrawExtraGems;
+
     public static CTGConfig Instance => ModContent.GetInstance<CTGConfig>();
 
     public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref NetworkText message)

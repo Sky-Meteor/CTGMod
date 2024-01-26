@@ -30,6 +30,11 @@ public class CTGPlayer : ModPlayer
 
     public Vector2 DrawCenter = Vector2.Zero;
 
+    /// <summary>
+    /// Resets at 1800
+    /// </summary>
+    public int DrawCounter;
+
     public override void ResetEffects()
     {
         if (Player.gemCount == 1)
@@ -128,6 +133,9 @@ public class CTGPlayer : ModPlayer
             Player.TeleportationPotion();
             TryUseTeleportation = false;
         }
+
+        if (++DrawCounter > 1800)
+            DrawCounter = 0;
     }
 
     public override void PostUpdateBuffs()
@@ -136,7 +144,7 @@ public class CTGPlayer : ModPlayer
         if (gravIndex != -1 && Player.buffTime[gravIndex] > 60 * 60)
             Player.buffTime[gravIndex] = 60 * 60;
     }
-
+    
     public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
     {
         if (Player.whoAmI == Main.myPlayer)
@@ -240,11 +248,4 @@ public class CTGPlayer : ModPlayer
         ItemTypesForSave = null;
         ItemTypesForLoad = null;
     }
-}
-
-public enum PlayerGroup
-{
-    Player,
-    Spectator,
-    Admin
 }

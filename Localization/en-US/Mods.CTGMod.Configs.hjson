@@ -15,4 +15,9 @@ CTGConfig: {
 		Label: Shrine Distance
 		Tooltip: Distance between gem shrines in World Generation
 	}
+
+	DrawExtraGems: {
+		Label: Draw Extra Gems
+		Tooltip: ""
+	}
 }

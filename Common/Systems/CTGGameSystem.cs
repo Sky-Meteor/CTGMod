@@ -4,9 +4,7 @@ using CTGMod.Common.ModPlayers;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Chat;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CTGMod.Common.Systems;
@@ -16,6 +14,8 @@ public class CTGGameSystem : ModSystem
     public static bool GameStarted = false;
     public static int GameTime;
     public static bool OncePerSecondCheck;
+
+    public static PlayerGroup Group = PlayerGroup.None;
     
     public override void PreUpdateWorld()
     {
@@ -50,6 +50,7 @@ public class CTGGameSystem : ModSystem
         writer.Write(GameStarted);
         writer.Write(GameTime);
         writer.Write(OncePerSecondCheck);
+        // writer.Write((byte)Group);
     }
 
     public override void NetReceive(BinaryReader reader)
@@ -62,7 +63,16 @@ public class CTGGameSystem : ModSystem
                 OncePerSecondCheck = reader.ReadBoolean();
                 foreach (Player p in Main.player.Where(p => p != null && p.active))
                     p.GetModPlayer<CTGPlayer>().UpdateTimer++;
+                // Group = (PlayerGroup)reader.ReadByte();
                 break;
         }
     }
+}
+
+public enum PlayerGroup
+{
+    None,
+    Player,
+    Spectator,
+    Admin
 }
