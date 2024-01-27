@@ -4,6 +4,7 @@ using CTGMod.Common.ModPlayers;
 using CTGMod.Common.Systems;
 using CTGMod.Common.Utils;
 using CTGMod.ID;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Terraria;
 using Terraria.ID;
@@ -34,14 +35,22 @@ namespace CTGMod
                 case CTGPacketID.StartGame:
                     CTGGameSystem.GameStarted = true;
                     CTGGameSystem.GameTime = 0;
-                    if (CTGUtil.ServerCheck)
-                        NetMessage.SendData(MessageID.WorldData);
+                    NetMessage.SendData(MessageID.WorldData);
                     break;
                 case CTGPacketID.EndGame:
                     CTGGameSystem.GameStarted = false;
                     CTGGameSystem.GameTime = 0;
+                    NetMessage.SendData(MessageID.WorldData);
+                    break;
+                case CTGPacketID.RequestGameTime:
+                    CTGGameSystem.RequestDisplayGameTime = true;
+                    NetMessage.SendData(MessageID.WorldData, whoAmI);
+                    break;
+                case CTGPacketID.SyncPlayerGroup:
+                    player = Main.player[reader.ReadByte()];
+                    mp = player.GetModPlayer<CTGPlayer>();
                     if (CTGUtil.ServerCheck)
-                        NetMessage.SendData(MessageID.WorldData);
+                        mp.SyncPlayer(-1, whoAmI, false);
                     break;
             }
         }

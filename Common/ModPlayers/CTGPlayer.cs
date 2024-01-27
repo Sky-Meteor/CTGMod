@@ -2,6 +2,7 @@
 using System.Linq;
 using CTGMod.Common.Configs;
 using CTGMod.Common.Systems;
+using CTGMod.Common.Utils;
 using CTGMod.Content.Buffs.GemBuffs;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
@@ -34,6 +35,8 @@ public class CTGPlayer : ModPlayer
     /// Resets at 1800
     /// </summary>
     public int DrawCounter;
+
+    public PlayerGroup Group = PlayerGroup.Player;
 
     public override void ResetEffects()
     {
@@ -86,6 +89,11 @@ public class CTGPlayer : ModPlayer
             Player.DropItem(Player.GetSource_DropAsItem(), Player.Center, ref Player.trashItem);
             if (Player.whoAmI == Main.myPlayer)
             {
+                if (!CTGUtil.SinglePlayerCheck)
+                {
+                    foreach (var item in UISystem.GemSlot.ItemsRef)
+                        NetMessage.SendData(MessageID.SyncItem, number: item.whoAmI);
+                }
                 Main.NewText("禁止把宝石丢进垃圾桶！", Color.Red);
             }
         }
@@ -121,17 +129,23 @@ public class CTGPlayer : ModPlayer
             }
         }
 
-        if (OwnedGems.Count == 3)
-            Player.AddBuff(ModContent.BuffType<GemCurseI>(), 2);
-        else if (OwnedGems.Count == 4)
-            Player.AddBuff(ModContent.BuffType<GemCurseII>(), 2);
-        else if (OwnedGems.Count >= 5)
-            Player.AddBuff(ModContent.BuffType<GemCurseIII>(), 2);
-
-        if (TryUseTeleportation)
+        if (Group == PlayerGroup.Player)
         {
-            Player.TeleportationPotion();
-            TryUseTeleportation = false;
+            if (OwnedGems.Count == 3)
+                Player.AddBuff(ModContent.BuffType<GemCurseI>(), 2);
+            else if (OwnedGems.Count == 4)
+                Player.AddBuff(ModContent.BuffType<GemCurseII>(), 2);
+            else if (OwnedGems.Count >= 5)
+                Player.AddBuff(ModContent.BuffType<GemCurseIII>(), 2);
+
+            if (TryUseTeleportation)
+            {
+                if (CTGUtil.SinglePlayerCheck)
+                    Player.TeleportationPotion();
+                else if (CTGUtil.MultiplayerClientCheck && Player.whoAmI == Main.myPlayer)
+                    NetMessage.SendData(MessageID.RequestTeleportationByServer);
+                TryUseTeleportation = false;
+            }
         }
 
         if (++DrawCounter > 1800)
@@ -208,6 +222,11 @@ public class CTGPlayer : ModPlayer
         packet.Write((byte)Player.whoAmI);
         packet.Write(JsonConvert.SerializeObject(ItemTypesForSave));
         packet.Send(toWho, fromWho);
+
+        packet = Mod.GetPacket();
+        packet.Write((byte)CTGPacketID.SyncPlayerGroup);
+        packet.Write((byte)Player.whoAmI);
+        packet.Send(toWho, fromWho);
     }
 
     public override void CopyClientState(ModPlayer targetCopy)
@@ -215,6 +234,7 @@ public class CTGPlayer : ModPlayer
         if (targetCopy is not CTGPlayer mp)
             return;
         mp.ItemTypesForSave = ItemTypesForSave.ToList();
+        mp.Group = Group;
     }
     
 
@@ -229,6 +249,14 @@ public class CTGPlayer : ModPlayer
             packet.Write((byte)CTGPacketID.SyncGemSlotItems);
             packet.Write((byte)Player.whoAmI);
             packet.Write(JsonConvert.SerializeObject(ItemTypesForSave));
+            packet.Send(-1, Player.whoAmI);
+        }
+
+        if (mp.Group != Group)
+        {
+            ModPacket packet = Mod.GetPacket();
+            packet.Write((byte)CTGPacketID.SyncPlayerGroup);
+            packet.Write((byte)Player.whoAmI);
             packet.Send(-1, Player.whoAmI);
         }
     }

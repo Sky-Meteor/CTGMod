@@ -14,8 +14,7 @@ public class CTGGameSystem : ModSystem
     public static bool GameStarted = false;
     public static int GameTime;
     public static bool OncePerSecondCheck;
-
-    public static PlayerGroup Group = PlayerGroup.None;
+    public static bool RequestDisplayGameTime;
     
     public override void PreUpdateWorld()
     {
@@ -25,7 +24,20 @@ public class CTGGameSystem : ModSystem
             if (GameTime % 60 == 0)
             {
                 OncePerSecondCheck = true;
+            }
+
+            if (GameTime % (60 * 60 * 5) == 0)
+            {
                 NetMessage.SendData(MessageID.WorldData);
+            }
+
+            if (RequestDisplayGameTime)
+                RequestDisplayGameTime = false;
+
+            if (GameTime % 60 == 0)
+            {
+                foreach (Player p in Main.player.Where(p => p != null && p.active))
+                    p.GetModPlayer<CTGPlayer>().UpdateTimer++;
             }
         }
     }
@@ -35,12 +47,19 @@ public class CTGGameSystem : ModSystem
         if (Main.netMode == NetmodeID.Server)
             return;
 
-        if (GameStarted && OncePerSecondCheck)
+        if (GameStarted)
         {
-            OncePerSecondCheck = false;
-            
-            if (GameTime % (60 * 60 * 5) == 0)
+            if (OncePerSecondCheck)
+            {
+                if (GameTime % (60 * 60 * 5) == 0)
+                    Main.NewText(($"游戏时间已经过{GameTime / 60}秒"), Color.Gold);
+                OncePerSecondCheck = false;
+            }
+            else if (RequestDisplayGameTime)
+            {
                 Main.NewText(($"游戏时间已经过{GameTime / 60}秒"), Color.Gold);
+                RequestDisplayGameTime = false;
+            }
         }
     }
     
@@ -50,7 +69,7 @@ public class CTGGameSystem : ModSystem
         writer.Write(GameStarted);
         writer.Write(GameTime);
         writer.Write(OncePerSecondCheck);
-        // writer.Write((byte)Group);
+        writer.Write(RequestDisplayGameTime);
     }
 
     public override void NetReceive(BinaryReader reader)
@@ -61,9 +80,7 @@ public class CTGGameSystem : ModSystem
                 GameStarted = reader.ReadBoolean();
                 GameTime = reader.ReadInt32();
                 OncePerSecondCheck = reader.ReadBoolean();
-                foreach (Player p in Main.player.Where(p => p != null && p.active))
-                    p.GetModPlayer<CTGPlayer>().UpdateTimer++;
-                // Group = (PlayerGroup)reader.ReadByte();
+                RequestDisplayGameTime = reader.ReadBoolean();
                 break;
         }
     }
@@ -71,7 +88,6 @@ public class CTGGameSystem : ModSystem
 
 public enum PlayerGroup
 {
-    None,
     Player,
     Spectator,
     Admin

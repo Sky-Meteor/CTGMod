@@ -4,6 +4,7 @@ using CTGMod.Common.Utils;
 using CTGMod.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CTGMod.Common.Commands;
@@ -16,6 +17,8 @@ public class CTGCommand : ModCommand
 
     public override void Action(CommandCaller caller, string input, string[] args)
     {
+        Player player = caller.Player;
+
         if (args.Length < 1)
         {
             caller.Reply("命令错误：缺少参数");
@@ -79,7 +82,16 @@ public class CTGCommand : ModCommand
                         caller.Reply("游戏未开始！");
                         break;
                     }
-                    caller.Reply($"当前游戏时间：{CTGGameSystem.GameTime / 60}秒", Color.Gold);
+                    if (!CTGUtil.SinglePlayerCheck)
+                    {
+                        ModPacket packet3 = Mod.GetPacket();
+                        packet3.Write((byte)CTGPacketID.RequestGameTime);
+                        packet3.Send(Main.LocalPlayer.whoAmI);
+                    }
+                    else
+                    {
+                        caller.Reply($"当前游戏时间：{CTGGameSystem.GameTime / 60}秒", Color.Gold);
+                    }
                     break;
                 case "prepare":
                     GiveStarterPack.TryGivePackToAllPlayers();
@@ -98,18 +110,24 @@ public class CTGCommand : ModCommand
                     {
                         case "player":
                         case "p":
-                            CTGGameSystem.Group = PlayerGroup.Player;
-                            CTGUtil.PrintText($"{caller.Player.name}已加入玩家组", Color.Aqua);
+                            player.GetModPlayer<CTGPlayer>().Group = PlayerGroup.Player;
+                            CTGUtil.PrintText($"{player.name}已加入玩家组", Color.Aqua);
+                            if (!CTGUtil.SinglePlayerCheck)
+                                player.GetModPlayer<CTGPlayer>().SyncPlayer(-1, player.whoAmI, false);
                             break;
                         case "admin":
                         case "a":
-                            CTGGameSystem.Group = PlayerGroup.Admin;
-                            CTGUtil.PrintText($"{caller.Player.name}已加入管理员组", Color.Aqua);
+                            player.GetModPlayer<CTGPlayer>().Group = PlayerGroup.Admin;
+                            CTGUtil.PrintText($"{player.name}已加入管理员组", Color.Aqua);
+                            if (!CTGUtil.SinglePlayerCheck)
+                                player.GetModPlayer<CTGPlayer>().SyncPlayer(-1, player.whoAmI, false);
                             break;
                         case "spectator":
                         case "s":
-                            CTGGameSystem.Group = PlayerGroup.Spectator;
-                            CTGUtil.PrintText($"{caller.Player.name}已加入旁观者组", Color.Aqua);
+                            player.GetModPlayer<CTGPlayer>().Group = PlayerGroup.Spectator;
+                            CTGUtil.PrintText($"{player.name}已加入旁观者组", Color.Aqua);
+                            if (!CTGUtil.SinglePlayerCheck)
+                                player.GetModPlayer<CTGPlayer>().SyncPlayer(-1, player.whoAmI, false);
                             break;
                     }
                     break;
